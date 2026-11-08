@@ -72,7 +72,69 @@ Meilleure tournée trouvée : **1-2-4-5-6-7-3-8-1 — Coût = 98**
 
 ---
 
-# Résultats optimaux
+# Ordonnancement de maintenance des centrales
 
-- **Exercice 2** : coût minimal = **52**.
-- **Exercice 3** : tournée optimale = **1-2-4-5-6-7-3-8-1**, coût = **98**.
+## Données
+
+| Unité | Capacité (MW) | Intervalles requis |
+|---|---:|---:|
+| 1 | 20 | 2 |
+| 2 | 15 | 2 |
+| 3 | 35 | 1 |
+| 4 | 40 | 1 |
+| 5 | 15 | 1 |
+| 6 | 15 | 1 |
+| 7 | 10 | 1 |
+
+Demandes : 80, 90, 65 et 70 MW pour les intervalles 1 à 4.
+
+Capacité totale = 150 MW.
+
+## Encodage
+
+Chaque unité est représentée par un gène de 4 bits.
+
+- `1` : maintenance pendant l’intervalle.
+- `0` : pas de maintenance.
+
+Les patterns autorisés sont :
+
+- Unités 1 et 2 : `1100`, `0110`, `0011`
+- Unités 3 à 7 : `1000`, `0100`, `0010`, `0001`
+
+Un chromosome est la concaténation des 7 blocs de 4 bits.
+
+## Fonction objective
+
+Pour un chromosome c :
+
+M_t(c) = Σ capacité_i × bit_{i,t}(c)
+
+Réserve_t(c) = 150 − M_t(c) − Demande_t
+
+Performance(c) = max(0, min_t Réserve_t(c))
+
+On maximise Performance(c).
+
+## Contraintes
+
+- La maintenance d’une unité commence au début d’un intervalle et se termine à la fin de l’intervalle.
+- Chaque unité doit utiliser un pattern autorisé.
+- La réserve doit être positive ; sinon la performance vaut 0.
+
+## Opérateurs génétiques
+
+- Sélection par loterie.
+- Croisement sur frontière de blocs de 4 bits.
+- Mutation par inversion d’un bloc de 4 bits, avec réparation si le pattern inversé n’est pas autorisé.
+- Variante testée : mutation aléatoire d’un bloc par un autre pattern autorisé.
+- Élitisme : conservation du meilleur individu.
+
+## Fichier
+
+Le code correspondant se trouve dans `cedule.py`.
+
+Exécution :
+
+```bash
+python cedule.py
