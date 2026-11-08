@@ -1,7 +1,7 @@
-# ============================================================
+# 
 # ex3.py — Exercice 3 : Voyageur de commerce (TSP)
 # Recherche taboue + Recuit simulé + Algorithme génétique
-# ============================================================
+#
 
 import random
 import math
@@ -75,7 +75,7 @@ def tabu_search_tsp(initial_tour, max_iter=100, tenure=5):
     return best, best_cost
 
 
-# ---------- 2) Recuit simulé ----------
+# 2) Recuit simulé
 def simulated_annealing_tsp(initial_tour, iterations=5, T0=10.0, alpha=0.7):
     current = initial_tour[:]
     best = current[:]
@@ -100,7 +100,7 @@ def simulated_annealing_tsp(initial_tour, iterations=5, T0=10.0, alpha=0.7):
     return best, best_cost
 
 
-# ---------- 3) Algorithme génétique ----------
+# 3) Algorithme génétique
 def genetic_algorithm_tsp(initial_tour, pop_size=8, generations=50,
                           mutation_rate=0.2):
     def create_individual():
@@ -157,7 +157,7 @@ def genetic_algorithm_tsp(initial_tour, pop_size=8, generations=50,
     return best, best_cost
 
 
-# ---------- Lancement Exercice 3 ----------
+# Exercice 3
 def ex3_tsp():
     print("\n=== Exercice 3 : Voyageur de commerce ===")
     initial = list(range(n_tsp))
